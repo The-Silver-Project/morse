@@ -19,7 +19,7 @@ function morseToText(morse = '') {
 
   const chars = morse
     .replace(dash, '-')
-    .replace(space, ' \\ ')
+    .replace(space, ' / ')
     .replace(/\n/g, ' \n ')
     .replace(/ +/g, ' ')
     .trim()
