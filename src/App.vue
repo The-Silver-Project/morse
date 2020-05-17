@@ -56,8 +56,8 @@
 
           <div
             class="icon"
-            @click="handleCodeButtonInput(index, '\\')"
-          >\</div>
+            @click="handleCodeButtonInput(index, '/')"
+          >/</div>
 
           <div
             class="icon"
