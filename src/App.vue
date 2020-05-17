@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { textToMorse, morseToText } from './libs/convertors';
+
 export default {
   name: 'App',
 
@@ -71,13 +73,13 @@ export default {
 
     handleTextConvert(target, text, index) {
       this.handleTextareaHeight(index);
-      this.conversions[index].code = text.toUpperCase();
+      this.conversions[index].code = textToMorse(text);
       this.manageEmptyBoxes(index);
     },
 
     handleCodeConvert(target, code, index) {
       this.handleTextareaHeight(index);
-      this.conversions[index].text = code.toLowerCase();
+      this.conversions[index].text = morseToText(code);
       this.manageEmptyBoxes(index);
     },
   },
