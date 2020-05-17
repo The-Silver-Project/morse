@@ -216,9 +216,7 @@ export default {
   },
 
   created() {
-    if (localStorage.isDark) {
-      this.isDark = localStorage.isDark;
-    }
+    this.isDark = localStorage.isDark === 'true';
 
     if (localStorage.conversions) {
       try {
