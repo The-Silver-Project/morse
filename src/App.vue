@@ -19,7 +19,7 @@
           <textarea
             :class="`box-text box-text-${index}`"
             v-model="entry.text"
-            @input="handleTextConvert($event.target, $event.target.value, index)"
+            @input="handleTextConvert($event.target.value, index)"
             placeholder="Text"
             spellcheck="false"
           />
@@ -32,11 +32,38 @@
           />
         </div>
 
+        <div class="code-buttons-wrap">
+          <div
+            class="icon"
+            @click="handleCodeButtonInput(index, '.')"
+          >.</div>
+
+          <div
+            class="icon"
+            @click="handleCodeButtonInput(index, '-')"
+          >-</div>
+
+          <div
+            class="icon"
+            @click="handleCodeButtonInput(index, '\\')"
+          >\</div>
+
+          <div
+            class="icon"
+            @click="handleCodeButtonInput(index, ' ')"
+          >space</div>
+
+          <img
+            src="@/assets/backspace.png"
+            class="icon"
+            @click="handleCodeButtonInput(index, '<')"
+          />
+        </div>
         <div class="box-wrap">
           <textarea
           :class="`box-code-${index}`"
             v-model="entry.code"
-            @input="handleCodeConvert($event.target, $event.target.value, index)"
+            @input="handleCodeConvert($event.target.value, index)"
             placeholder="Code"
             spellcheck="false"
           />
@@ -98,7 +125,7 @@ export default {
       codeBox.style.height = `${codeBox.scrollHeight}px`;
     },
 
-    handleTextConvert(target, text, index) {
+    handleTextConvert(text, index) {
       this.conversions[index].code = textToMorse(text);
       setTimeout(() => {
         this.handleTextareaHeight(index);
@@ -106,7 +133,7 @@ export default {
       this.manageEmptyBoxes(index);
     },
 
-    handleCodeConvert(target, code, index) {
+    handleCodeConvert(code, index) {
       this.conversions[index].text = morseToText(code);
       setTimeout(() => {
         this.handleTextareaHeight(index);
@@ -133,6 +160,15 @@ export default {
 
     copyCode(index) {
       navigator.clipboard.writeText(this.conversions[index].code);
+    },
+
+    handleCodeButtonInput(index, input) {
+      if (input === '<') {
+        this.conversions[index].code = this.conversions[index].code.slice(0, -1);
+      } else {
+        this.conversions[index].code += input;
+      }
+      this.handleCodeConvert(this.conversions[index].code, index);
     },
   },
 };
@@ -192,5 +228,20 @@ textarea {
 .copy-icon {
   margin-top: 6px;
   margin-left: 6px;
+}
+
+.code-buttons-wrap {
+  display: flex;
+  margin-bottom: 3px;
+  align-items: center;
+}
+.code-buttons-wrap div {
+  color: white;
+  background-color: black;
+  margin-right: 12px;
+  padding: 3px 6px;
+  font-size: 14px;
+  border-radius: 6px;
+  /* border: 2px solid black; */
 }
 </style>
