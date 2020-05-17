@@ -46,7 +46,7 @@ const charToMorse = {
 
   '\n': '\n',
 
-  ' ': '\\',
+  ' ': '/',
   ',': '--..--',
   '.': '.-.-.-',
   '?': '..--..',
@@ -67,7 +67,7 @@ const charToMorse = {
   $: '...-..-',
 };
 
-const morseToChar = {};
+const morseToChar = { '.......': ' ' };
 
 Object.keys(charToMorse).forEach((char) => {
   morseToChar[charToMorse[char]] = char;
