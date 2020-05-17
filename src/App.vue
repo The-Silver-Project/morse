@@ -8,11 +8,19 @@
         v-for="(entry, index) in conversions"
         :key=index
       >
+        <img
+          class="delete-icon"
+          src="@/assets/delete.png"
+          v-if="index !== conversions.length - 1"
+          @click="conversions.splice(index, 1)"
+        />
+
         <textarea
-          :class="`box-text-${index}`"
+          :class="`box-text box-text-${index}`"
           v-model="entry.text"
           @input="handleTextConvert($event.target, $event.target.value, index)"
           placeholder="Text"
+          spellcheck="false"
         />
 
         <textarea
@@ -20,6 +28,7 @@
           v-model="entry.code"
           @input="handleCodeConvert($event.target, $event.target.value, index)"
           placeholder="Code"
+          spellcheck="false"
         />
       </section>
     </section>
@@ -119,9 +128,13 @@ textarea {
   resize: none;
   height: 21px;
   overflow: hidden;
+}
+
+.box-text {
   margin-bottom: 12px;
 }
-textarea:last-child {
-  margin-bottom: 0;
+
+.delete-icon {
+  cursor: pointer;
 }
 </style>
