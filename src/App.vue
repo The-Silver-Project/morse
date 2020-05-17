@@ -10,7 +10,7 @@
     <img
       class="icon theme-icon"
       :src="isDark ? sunIcon : moonIcon"
-      @click="isDark = !isDark"
+      @click="toggleDarkMode"
     />
 
     <section class="entries">
@@ -156,12 +156,17 @@ export default {
       codeBox.style.height = `${codeBox.scrollHeight}px`;
     },
 
+    saveProgress() {
+      localStorage.conversions = JSON.stringify(this.conversions);
+    },
+
     handleTextConvert(text, index) {
       this.conversions[index].code = textToMorse(text);
       setTimeout(() => {
         this.handleTextareaHeight(index);
       }, 0);
       this.manageEmptyBoxes(index);
+      this.saveProgress();
     },
 
     handleCodeConvert(code, index) {
@@ -170,6 +175,7 @@ export default {
         this.handleTextareaHeight(index);
       }, 0);
       this.manageEmptyBoxes(index);
+      this.saveProgress();
     },
 
     resizeAllTextAreas() {
@@ -183,6 +189,7 @@ export default {
       setTimeout(() => {
         this.resizeAllTextAreas();
       }, 0);
+      this.saveProgress();
     },
 
     copyText(index) {
@@ -201,6 +208,26 @@ export default {
       }
       this.handleCodeConvert(this.conversions[index].code, index);
     },
+
+    toggleDarkMode() {
+      this.isDark = !this.isDark;
+      localStorage.isDark = this.isDark;
+    },
+  },
+
+  created() {
+    if (localStorage.isDark) {
+      this.isDark = localStorage.isDark;
+    }
+
+    if (localStorage.conversions) {
+      try {
+        this.conversions = JSON.parse(localStorage.conversions);
+        setTimeout(() => {
+          this.resizeAllTextAreas();
+        }, 0);
+      } catch (e) { /* ignore */ }
+    }
   },
 };
 </script>
