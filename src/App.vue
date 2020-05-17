@@ -9,27 +9,45 @@
         :key=index
       >
         <img
-          class="delete-icon"
+          class="icon"
           src="@/assets/delete.png"
           v-if="index !== conversions.length - 1"
-          @click="conversions.splice(index, 1)"
+          @click="handleDelete(index)"
         />
 
-        <textarea
-          :class="`box-text box-text-${index}`"
-          v-model="entry.text"
-          @input="handleTextConvert($event.target, $event.target.value, index)"
-          placeholder="Text"
-          spellcheck="false"
-        />
+        <div class="box-wrap">
+          <textarea
+            :class="`box-text box-text-${index}`"
+            v-model="entry.text"
+            @input="handleTextConvert($event.target, $event.target.value, index)"
+            placeholder="Text"
+            spellcheck="false"
+          />
 
-        <textarea
-        :class="`box-code-${index}`"
-          v-model="entry.code"
-          @input="handleCodeConvert($event.target, $event.target.value, index)"
-          placeholder="Code"
-          spellcheck="false"
-        />
+          <img
+            src="@/assets/copy.png"
+            class="icon copy-icon"
+            v-if="conversions[index].text"
+            @click="copyText(index)"
+          />
+        </div>
+
+        <div class="box-wrap">
+          <textarea
+          :class="`box-code-${index}`"
+            v-model="entry.code"
+            @input="handleCodeConvert($event.target, $event.target.value, index)"
+            placeholder="Code"
+            spellcheck="false"
+          />
+
+          <img
+            src="@/assets/copy.png"
+            class="icon copy-icon"
+            v-if="conversions[index].code"
+            @click="copyCode(index)"
+          />
+        </div>
       </section>
     </section>
 
@@ -81,15 +99,40 @@ export default {
     },
 
     handleTextConvert(target, text, index) {
-      this.handleTextareaHeight(index);
       this.conversions[index].code = textToMorse(text);
+      setTimeout(() => {
+        this.handleTextareaHeight(index);
+      }, 0);
       this.manageEmptyBoxes(index);
     },
 
     handleCodeConvert(target, code, index) {
-      this.handleTextareaHeight(index);
       this.conversions[index].text = morseToText(code);
+      setTimeout(() => {
+        this.handleTextareaHeight(index);
+      }, 0);
       this.manageEmptyBoxes(index);
+    },
+
+    resizeAllTextAreas() {
+      this.conversions.forEach((entry, index) => {
+        this.handleTextareaHeight(index);
+      });
+    },
+
+    handleDelete(index) {
+      this.conversions.splice(index, 1);
+      setTimeout(() => {
+        this.resizeAllTextAreas();
+      }, 0);
+    },
+
+    copyText(index) {
+      navigator.clipboard.writeText(this.conversions[index].text);
+    },
+
+    copyCode(index) {
+      navigator.clipboard.writeText(this.conversions[index].code);
     },
   },
 };
@@ -119,6 +162,11 @@ export default {
   border-bottom: 0;
 }
 
+.box-wrap {
+  display: flex;
+  align-items: flex-start;
+}
+
 textarea {
   display: block;
   width: 100%;
@@ -134,7 +182,15 @@ textarea {
   margin-bottom: 12px;
 }
 
-.delete-icon {
+.icon {
   cursor: pointer;
+}
+.icon:active {
+  transform: scale(0.8);
+}
+
+.copy-icon {
+  margin-top: 6px;
+  margin-left: 6px;
 }
 </style>
