@@ -1,7 +1,7 @@
 import { charToMorse, morseToChar } from './morse-code-map';
 
 // Alternative morse characters
-const dash = /-/g;
+const dash = /_/g;
 const space = / *[\\/|] */g;
 
 function textToMorse(text = '') {
@@ -11,14 +11,17 @@ function textToMorse(text = '') {
     chars[i] = charToMorse[char] || '#';
   });
 
-  return chars.join(' ').replace(/ \n /g, '\n');
+  return chars
+    .join(' ')
+    .replace(/ \n /g, '\n')
+    .replace(/-/g, '_');
 }
 
 function morseToText(morse = '') {
   if (!morse) return '';
 
   const chars = morse
-    .replace(dash, '_')
+    .replace(dash, '-')
     .replace(space, ' / ')
     .replace(/\n/g, ' \n ')
     .replace(/ +/g, ' ')
