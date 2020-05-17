@@ -1,6 +1,17 @@
 <template>
-  <section>
-    <img class="app-logo" src="@/assets/logo.png" />
+  <section
+    :class="{
+      app: true,
+      'dark-ui': isDark,
+    }"
+  >
+    <img class="app-logo" :src="isDark ? logoLight : logo" />
+
+    <img
+      class="icon theme-icon"
+      :src="isDark ? sunIcon : moonIcon"
+      @click="isDark = !isDark"
+    />
 
     <section class="entries">
       <section
@@ -10,7 +21,7 @@
       >
         <img
           class="icon"
-          src="@/assets/delete.png"
+          :src="isDark ? deleteIconLight : deleteIcon"
           v-if="index !== conversions.length - 1"
           @click="handleDelete(index)"
         />
@@ -25,7 +36,7 @@
           />
 
           <img
-            src="@/assets/copy.png"
+            :src="isDark ? copyIconLight : copyIcon"
             class="icon copy-icon"
             v-if="conversions[index].text"
             @click="copyText(index)"
@@ -69,7 +80,7 @@
           />
 
           <img
-            src="@/assets/copy.png"
+            :src="isDark ? copyIconLight : copyIcon"
             class="icon copy-icon"
             v-if="conversions[index].code"
             @click="copyCode(index)"
@@ -84,11 +95,31 @@
 <script>
 import { textToMorse, morseToText } from './libs/convertors';
 
+import logo from './assets/logo.png';
+import logoLight from './assets/logo-light.png';
+import sunIcon from './assets/sun.png';
+import moonIcon from './assets/moon.png';
+import deleteIcon from './assets/delete.png';
+import deleteIconLight from './assets/delete-light.png';
+import copyIcon from './assets/copy.png';
+import copyIconLight from './assets/copy-light.png';
+
 export default {
   name: 'App',
 
   data: () => ({
     conversions: [{ text: '', code: '' }],
+
+    isDark: false,
+
+    logo,
+    logoLight,
+    sunIcon,
+    moonIcon,
+    deleteIcon,
+    deleteIconLight,
+    copyIcon,
+    copyIconLight,
   }),
 
   methods: {
@@ -175,6 +206,12 @@ export default {
 </script>
 
 <style scoped>
+.app.dark-ui {
+  min-height: 100%;
+  background-color: black;
+  color: white;
+}
+
 .app-logo {
   position: fixed;
   top: 15px;
@@ -182,8 +219,7 @@ export default {
 }
 
 .entries {
-  margin: 120px 0;
-  padding: 0 24px;
+  padding: 120px 24px;
 }
 
 .entry-wrap {
@@ -196,6 +232,9 @@ export default {
 }
 .entry-wrap:last-child {
   border-bottom: 0;
+}
+.dark-ui .entry-wrap {
+  border-bottom-color: #333333;
 }
 
 .box-wrap {
@@ -212,6 +251,8 @@ textarea {
   resize: none;
   height: 21px;
   overflow: hidden;
+  background-color: inherit;
+  color: inherit;
 }
 
 .box-text {
@@ -242,6 +283,17 @@ textarea {
   padding: 3px 6px;
   font-size: 14px;
   border-radius: 6px;
-  /* border: 2px solid black; */
+}
+.dark-ui .code-buttons-wrap div {
+  color: black;
+  background-color: white;
+}
+
+.theme-icon {
+  position: fixed;
+  top: 24px;
+  left: 60px;
+  width: 16px;
+  height: 16px;
 }
 </style>
