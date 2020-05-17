@@ -23,7 +23,8 @@ function morseToText(morse = '') {
     .replace(/\n/g, ' \n ')
     .replace(/ +/g, ' ')
     .trim()
-    .split(' ');
+    .split(' ')
+    .filter(Boolean);
 
   chars.forEach((char, i) => {
     chars[i] = morseToChar[char] || '#';
