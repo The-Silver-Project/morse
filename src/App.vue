@@ -94,7 +94,7 @@ export default {
 }
 
 .entries {
-  margin-top: 120px;
+  margin: 120px 0;
   padding: 0 24px;
 }
 
