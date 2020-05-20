@@ -318,7 +318,7 @@ button:active {
 .remove-button img {
   vertical-align: middle;
 }
-.dark-ui .code-buttons-wrap div {
+.dark-ui .add-button {
   color: black;
   background-color: white;
 }
