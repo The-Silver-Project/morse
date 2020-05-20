@@ -7,11 +7,12 @@
   >
     <img class="app-logo" :src="isDark ? logoLight : logo" />
 
-    <img
-      class="icon theme-icon"
-      :src="isDark ? sunIcon : moonIcon"
-      @click="toggleDarkMode"
-    />
+    <button class="theme-icon">
+      <img
+        :src="isDark ? sunIcon : moonIcon"
+        @click="toggleDarkMode"
+      />
+    </button>
 
     <section class="entries">
       <section
@@ -19,12 +20,13 @@
         v-for="(entry, index) in conversions"
         :key=index
       >
-        <img
-          class="icon"
-          :src="isDark ? deleteIconLight : deleteIcon"
-          v-if="index !== conversions.length - 1"
-          @click="handleDelete(index)"
-        />
+        <button>
+          <img
+            :src="isDark ? deleteIconLight : deleteIcon"
+            v-if="index !== conversions.length - 1"
+            @click="handleDelete(index)"
+          />
+        </button>
 
         <div class="box-wrap">
           <textarea
@@ -35,12 +37,14 @@
             spellcheck="false"
           />
 
-          <img
-            :src="isDark ? copyIconLight : copyIcon"
-            class="icon copy-icon"
-            v-if="conversions[index].text"
-            @click="copyText(index)"
-          />
+          <button>
+            <img
+              :src="isDark ? copyIconLight : copyIcon"
+              class="copy-icon"
+              v-if="conversions[index].text"
+              @click="copyText(index)"
+            />
+          </button>
         </div>
 
         <div class="code-buttons-wrap">
@@ -70,10 +74,9 @@
 
           <button class="remove-button">
             <img
-              src="@/assets/backspace.png"
-              class="icon"
+              :src="isDark ? backspaceIconLight : backspaceIcon"
               @click="handleCodeButtonInput(index, '<')"
-            />
+            >
           </button>
         </div>
         <div class="box-wrap">
@@ -85,12 +88,14 @@
             spellcheck="false"
           />
 
-          <img
-            :src="isDark ? copyIconLight : copyIcon"
-            class="icon copy-icon"
-            v-if="conversions[index].code"
-            @click="copyCode(index)"
-          />
+          <button>
+            <img
+              :src="isDark ? copyIconLight : copyIcon"
+              class="copy-icon"
+              v-if="conversions[index].code"
+              @click="copyCode(index)"
+            />
+          </button>
         </div>
       </section>
     </section>
@@ -101,14 +106,16 @@
 <script>
 import { textToMorse, morseToText } from './libs/convertors';
 
-import logo from './assets/logo.png';
-import logoLight from './assets/logo-light.png';
-import sunIcon from './assets/sun.png';
-import moonIcon from './assets/moon.png';
-import deleteIcon from './assets/delete.png';
-import deleteIconLight from './assets/delete-light.png';
-import copyIcon from './assets/copy.png';
-import copyIconLight from './assets/copy-light.png';
+import logo from './assets/logo.svg';
+import logoLight from './assets/logo-light.svg';
+import sunIcon from './assets/sun.svg';
+import moonIcon from './assets/moon.svg';
+import deleteIcon from './assets/delete.svg';
+import deleteIconLight from './assets/delete-light.svg';
+import copyIcon from './assets/copy.svg';
+import copyIconLight from './assets/copy-light.svg';
+import backspaceIcon from './assets/backspace.svg';
+import backspaceIconLight from './assets/backspace-light.svg';
 
 export default {
   name: 'App',
@@ -126,6 +133,8 @@ export default {
     deleteIconLight,
     copyIcon,
     copyIconLight,
+    backspaceIcon,
+    backspaceIconLight,
   }),
 
   methods: {
@@ -247,6 +256,8 @@ export default {
   position: fixed;
   top: 15px;
   left: 15px;
+  width: 32px;
+  height: 32px;
 }
 
 .entries {
@@ -297,6 +308,11 @@ button:active {
   transform: scale(0.8);
 }
 
+button img {
+  width: 16px;
+  height: 16px;
+}
+
 .copy-icon {
   margin-top: 6px;
   margin-left: 6px;
@@ -317,6 +333,8 @@ button:active {
 }
 .remove-button img {
   vertical-align: middle;
+  width: 24px;
+  height: 24px;
 }
 .dark-ui .add-button {
   color: black;
@@ -327,7 +345,5 @@ button:active {
   position: fixed;
   top: 24px;
   left: 60px;
-  width: 16px;
-  height: 16px;
 }
 </style>
