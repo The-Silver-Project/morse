@@ -44,31 +44,37 @@
         </div>
 
         <div class="code-buttons-wrap">
-          <div
-            class="icon"
-            @click="handleCodeButtonInput(index, '.')"
-          >.</div>
+          <div>
+            <button
+              class="add-button"
+              @click="handleCodeButtonInput(index, '.')"
+            >.</button>
+          </div>
 
-          <div
-            class="icon"
-            @click="handleCodeButtonInput(index, '-')"
-          >-</div>
+          <div>
+            <button
+              class="add-button"
+              @click="handleCodeButtonInput(index, '_')"
+            >_</button>
+          </div>
 
-          <div
-            class="icon"
+          <button
+            class="add-button"
             @click="handleCodeButtonInput(index, '/')"
-          >/</div>
+          >/</button>
 
-          <div
-            class="icon"
+          <button
+            class="add-button"
             @click="handleCodeButtonInput(index, ' ')"
-          >space</div>
+          >space</button>
 
-          <img
-            src="@/assets/backspace.png"
-            class="icon"
-            @click="handleCodeButtonInput(index, '<')"
-          />
+          <button class="remove-button">
+            <img
+              src="@/assets/backspace.png"
+              class="icon"
+              @click="handleCodeButtonInput(index, '<')"
+            />
+          </button>
         </div>
         <div class="box-wrap">
           <textarea
@@ -284,10 +290,10 @@ textarea {
   margin-bottom: 12px;
 }
 
-.icon {
+button {
   cursor: pointer;
 }
-.icon:active {
+button:active {
   transform: scale(0.8);
 }
 
@@ -301,13 +307,16 @@ textarea {
   margin-bottom: 3px;
   align-items: center;
 }
-.code-buttons-wrap div {
+.add-button {
   color: white;
   background-color: black;
   margin-right: 12px;
-  padding: 3px 6px;
+  padding: 4px 6px 5px 6px;
   font-size: 14px;
   border-radius: 6px;
+}
+.remove-button img {
+  vertical-align: middle;
 }
 .dark-ui .code-buttons-wrap div {
   color: black;
